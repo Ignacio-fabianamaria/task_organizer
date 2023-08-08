@@ -1,0 +1,21 @@
+:root{
+    --white: #ffff;
+    --gray-100: #f0f0f0;
+    --primary: #4d69fe;
+    --secondary: #08b605;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Sora', Helvetica, sans-serif;
+}
+
+body{
+    background-color: var(--gray-100);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-font-smoothing: antialiased;
+}
