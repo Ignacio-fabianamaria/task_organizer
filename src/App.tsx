@@ -1,12 +1,13 @@
+import { Home } from "./pages/Home"
 
 
 function App() {
   
 
   return (
-    <div>
-      <p>Task Organizer</p>  
-    </div>
+    <>
+    <Home />
+    </>
   )
 }
 
