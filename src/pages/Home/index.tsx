@@ -1,4 +1,5 @@
 import { Header } from "../../components/Header";
+import { List } from "../../components/List";
 import styles from './Home.module.css'
 
 export function Home(){
@@ -13,6 +14,7 @@ export function Home(){
                 <span className={styles.finish}>Finalizados: 5 tarefas</span>
                 <span className={styles.progress}>Em progresso: 5 tarefas</span>
             </div>
+            <List />
         </div>
     )
 }

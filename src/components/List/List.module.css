@@ -1,0 +1,22 @@
+.card{
+    background-color: var(--white);
+    padding: .7rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    box-shadow: 0px 10px 20px rgba(114, 113, 113, 0.25);
+    border-radius: 8px;
+
+}
+
+.icon{
+display: flex;
+   justify-content:center;
+   align-items: center;
+   gap: .6rem;
+   
+}
+
+.card input{
+    border: none;
+}
