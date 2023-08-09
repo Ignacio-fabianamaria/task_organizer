@@ -4,15 +4,21 @@ import { ReactComponent as Delete } from '../../assets/trash.svg'
 import style from './List.module.css'
 
 
-export function List() {
+export function List({tasks}) {
   return (
+    <>
+    {tasks.map((e)=>{
+      return(
     <div className={style.card}>
-      <input type='text' value={'Apernder JavaScript'} />
+      <input type='text' value={e.description} />
       <div className={style.icon}>
-        <Delete style={{ width: '17px' }} />
-        <Edit style={{ width: '20px' }} />
-        <Confirm style={{ width: '22px' }} /> 
+        <Delete style={{ width: '1rem' }} />
+        <Edit style={{ width: '1.3rem' }} />
+        <Confirm style={{ width: '1.5rem' }} /> 
       </div>
     </div>
+      )
+    })}
+    </>
   )
 }
