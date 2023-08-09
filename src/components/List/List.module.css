@@ -21,3 +21,12 @@ display: flex;
 .card input{
     border: none;
 }
+
+.completedCard{
+    background-color: rgba(20, 20, 20, 0.131);
+}
+
+.taskDone {
+    text-decoration: line-through;
+    background-color: rgba(20, 20, 20, 0);
+}

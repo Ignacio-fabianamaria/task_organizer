@@ -4,12 +4,11 @@ import { List } from "../../components/List";
 import styles from './Home.module.css';
 import { v4 as uuid } from 'uuid';
 
-export interface ITaskList{
-id:string,
-description:string,
-completed:boolean,
+export interface ITaskList {
+  id: string,
+  description: string,
+  completed: boolean,
 }
-
 export function Home() {
   const [todo, setTodo] = useState<string>('');
   const [taskList, setTaskList] = useState<ITaskList[]>([]);
@@ -24,11 +23,22 @@ export function Home() {
     setTodo('');
   }
 
-  const handleDeleteTask = (id) => {
+  const handleDeleteTask = (id: string) => {
     const filterTasks = taskList.filter(task => task.id != id);
     setTaskList(filterTasks);
-
   }
+
+  const handleTaskDone = (id: string) => {
+    const newTaskDone = taskList.map((task) => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      } else {
+        return task
+      }
+    });
+    setTaskList(newTaskDone)
+  }
+
   return (
     <div>
       <Header />
@@ -44,7 +54,11 @@ export function Home() {
         <span className={styles.finish}>Finalizados: 5 tarefas</span>
         <span className={styles.progress}>Em progresso: 5 tarefas</span>
       </div>
-      <List tasks={taskList} deleteTask={handleDeleteTask} />
+      <List
+        tasks={taskList}
+        deleteTask={handleDeleteTask}
+        taskDone={handleTaskDone}
+      />
     </div>
   )
 }
