@@ -18,15 +18,21 @@ display: flex;
    
 }
 
+.card{
+    background-color: rgba(133, 230, 151, 0.284);
+}
+
 .card input{
     border: none;
+    background-color: rgba(144, 216, 232, 0.054);
+
 }
 
 .completedCard{
-    background-color: rgba(20, 20, 20, 0.131);
+    background-color: rgba(98, 154, 233, 0.216);
 }
 
 .taskDone {
     text-decoration: line-through;
-    background-color: rgba(20, 20, 20, 0);
+    background-color: rgba(20, 20, 20, 0.061);
 }
