@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import { List } from "../../components/List";
 import styles from './Home.module.css';
@@ -12,6 +12,20 @@ export interface ITaskList {
 export function Home() {
   const [todo, setTodo] = useState<string>('');
   const [taskList, setTaskList] = useState<ITaskList[]>([]);
+  const [totInprogress, setTotInProgress] = useState(0);
+  const [totComplete, setTotComplete] = useState(0);
+
+  useEffect(()=>{
+    const storedTaskList = localStorage.getItem('taskList');
+  if (storedTaskList) {
+    setTaskList(JSON.parse(storedTaskList));
+  }
+    const newTotInProgress = taskList.reduce((acc,curr)=> (!curr.completed ? acc +1 : acc),0);
+    setTotInProgress(newTotInProgress);
+    const newTotComplete = taskList.reduce((acc,curr)=> (curr.completed ? acc +1 : acc),0);
+    setTotComplete(newTotComplete)
+  },[taskList])
+
 
   const handleAddTodo = () => {
     const newTask = {
@@ -19,13 +33,17 @@ export function Home() {
       description: todo,
       completed: false,
     };
-    setTaskList([...taskList, newTask]);
+    const newTaskList = [...taskList, newTask]; 
+    setTaskList(newTaskList); 
     setTodo('');
+    localStorage.setItem('taskList', JSON.stringify(newTaskList));
+    
   }
 
   const handleDeleteTask = (id: string) => {
     const filterTasks = taskList.filter(task => task.id != id);
     setTaskList(filterTasks);
+    localStorage.setItem('taskList', JSON.stringify(filterTasks));
   }
 
   const handleTaskDone = (id: string) => {
@@ -36,7 +54,9 @@ export function Home() {
         return task
       }
     });
-    setTaskList(newTaskDone)
+    setTaskList(newTaskDone);
+    localStorage.setItem('taskList', JSON.stringify(newTaskDone));
+
   }
 
   const handleEditTask = (event:ChangeEvent<HTMLInputElement>, id:string) => {
@@ -49,7 +69,9 @@ export function Home() {
       }
       return task;
     })
-    setTaskList(newTaskState)
+    setTaskList(newTaskState);
+    localStorage.setItem('taskList', JSON.stringify(newTaskState));
+
   }
 
   return (
@@ -64,8 +86,8 @@ export function Home() {
         <button onClick={handleAddTodo}>Adicionar</button>
       </div>
       <div className={styles.filter}>
-        <span className={styles.finish}>Finalizados: 5 tarefas</span>
-        <span className={styles.progress}>Em progresso: 5 tarefas</span>
+        <span className={styles.finish}>Finalizados: {totComplete} tarefas</span>
+        <span className={styles.progress}>Em progresso: {totInprogress} tarefas</span>
       </div>
       <List
         tasks={taskList}
