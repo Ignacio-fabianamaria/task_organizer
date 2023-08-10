@@ -13,7 +13,7 @@
 }
 
 body{
-    background-color: var(--gray-100);
+    background-color: rgba(151, 202, 233, 0.292);
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;

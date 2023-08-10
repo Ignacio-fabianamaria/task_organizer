@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Header } from "../../components/Header";
 import { List } from "../../components/List";
 import styles from './Home.module.css';
@@ -39,6 +39,19 @@ export function Home() {
     setTaskList(newTaskDone)
   }
 
+  const handleEditTask = (event:ChangeEvent<HTMLInputElement>, id:string) => {
+    const newTaskState = taskList.map(task => {
+      if(task.id === id){
+        return {
+          ...task,
+          description: event.target.value,
+        }
+      }
+      return task;
+    })
+    setTaskList(newTaskState)
+  }
+
   return (
     <div>
       <Header />
@@ -58,7 +71,8 @@ export function Home() {
         tasks={taskList}
         deleteTask={handleDeleteTask}
         taskDone={handleTaskDone}
-      />
+        editTask={handleEditTask}
+        />
     </div>
   )
 }

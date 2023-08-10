@@ -5,15 +5,51 @@ import { ReactComponent as DeleteDone } from '../../assets/delete.svg'
 
 import { ITaskList } from '../../pages/Home'
 import style from './List.module.css'
+import { 
+  ChangeEvent,
+  ForwardRefRenderFunction,
+  createRef,
+  forwardRef,
+  useImperativeHandle,
+  useMemo 
+} from 'react'
 
 interface IProps {
   tasks: ITaskList[],
   deleteTask: (id: string) => void,
-  taskDone: (id: string) => void
+  taskDone: (id: string) => void,
+  editTask:(event:ChangeEvent<HTMLInputElement>, id:string)=> void,
 }
 
-export function List({ tasks, deleteTask, taskDone }: IProps) {
-  return (
+interface IListRef{
+  focus:(index:number)=>void
+}
+
+const ListBase: ForwardRefRenderFunction<IListRef, IProps> = ({
+  tasks,
+  deleteTask,
+  taskDone,
+  editTask,
+}, ref) => {
+
+  const inputRefs = useMemo(()=>
+    Array(tasks.length)
+    .fill(0)
+    .map(()=> createRef<HTMLInputElement>())
+  ,[tasks.length]);
+
+  useImperativeHandle(ref, ()=>({
+    focus:(index:number)=>{
+      inputRefs[index].current?.focus()
+    }
+  }));
+
+  const handleTaskBlur = (index:number)=> {
+    inputRefs[index].current?.focus()
+  };
+
+
+  return(
     <>
       {tasks.map((e, index) => (
         <div className={`${style.card} ${e.completed ? style.completedCard : ''}`} key={index}>
@@ -26,7 +62,12 @@ export function List({ tasks, deleteTask, taskDone }: IProps) {
             </>
           ) : (
             <>
-              <input type='text' value={e.description} />
+              <input
+              type='text'
+              value={e.description}
+              ref={inputRefs[index]} 
+              onChange={(event)=>editTask(event, e.id)}
+              />
               <div className={style.icon}>
                 <Delete
                   style={{ width: '1rem' }}
@@ -34,6 +75,7 @@ export function List({ tasks, deleteTask, taskDone }: IProps) {
                 />
                 <Edit
                   style={{ width: '1.3rem' }}
+                  onClick={()=>handleTaskBlur(index)}
                 />
                 <Confirm
                   style={{ width: '1.5rem' }}
@@ -45,5 +87,8 @@ export function List({ tasks, deleteTask, taskDone }: IProps) {
         </div>
       ))}
     </>
-  );
-}
+  )
+          }
+      
+export const List = forwardRef(ListBase);
+
