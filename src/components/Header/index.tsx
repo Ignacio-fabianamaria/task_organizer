@@ -12,8 +12,10 @@ export function Header() {
 
   }, []);
 
-  const options = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
-  const formattedDTime = dateTime.toLocaleString(options).replace(',', ' -');
+  
+
+  const options:Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
+  const formattedDTime = dateTime.toLocaleString('pt-BR', options).replace(',', ' -');
 
 
 
